@@ -1,0 +1,19 @@
+---
+
+- name: CONSUL_TEMPLATE | Copy config
+  template:
+    src: "{{ consul_template_config_src }}"
+    dest: "{{ consul_template_config_path }}"
+    owner: "{{ consul_template_user }}"
+    group: "{{ consul_template_group }}"
+    mode: 0644
+  notify: restart consul_template
+
+- name: CONSUL_TEMPLATE | Copy template
+  copy:
+    src: "{{ consul_template_template_src }}"
+    dest: "{{ consul_template_template_path }}"
+    owner: "{{ consul_template_user }}"
+    group: "{{ consul_template_group }}"
+    mode: 0644
+  notify: restart consul_template

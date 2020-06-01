@@ -1,0 +1,30 @@
+---
+
+file:
+  "{{ consul_template_bin_path }}":
+    owner: "{{ consul_template_user }}"
+    group: "{{ consul_template_group }}"
+    exists: true
+    filetype: directory
+service:
+  consul_template:
+    enabled: true
+    running: true
+command:
+  version:
+    exit-status: 0
+    exec: "cat /etc/consul_template/render.txt" 
+    stdout:
+    - consul
+process:
+  "{{ consul_template_exec_name }}":
+    running: true
+user:
+  "{{ consul_template_user }}":
+    exists: true
+    groups:
+      - "{{ consul_template_group }}"
+    shell: /usr/sbin/nologin
+group:
+  "{{ consul_template_group }}":
+    exists: true

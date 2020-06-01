@@ -1,0 +1,24 @@
+{{ ansible_managed | comment }}
+[Unit]
+Description=consul template
+Documentation={{ consul_template_documentation_link }}
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+PrivateTmp={{ private_tmp_service }}
+User={{ consul_template_user }}
+Group={{ consul_template_group }}
+RuntimeDirectory=consul_template
+LimitNOFILE={{ consul_template_max_files }}
+
+ExecStart={{ consul_template_bin_path }}/{{ consul_template_exec_name }} {% for option in consul_template_options %}{% if option %}-{{ option }} {% endif %}{% endfor %}
+
+StandardOutput={{ consul_template_log_output }}
+StandardError={{ consul_template_log_output }}
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGTERM
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

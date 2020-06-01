@@ -1,0 +1,18 @@
+---
+
+galaxy_info:
+  author: idealista
+  company: Idealista S.A.U.
+  description: Consul Template Role
+  min_ansible_version: 2.9.0.0
+  license: Apache 2.0
+  galaxy-tags:
+    - consul-template
+    - consul
+    - service-discovery
+  platforms:
+    - name: Debian
+      versions:
+        - jessie
+        - stretch
+        - buster

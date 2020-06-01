@@ -1,0 +1,27 @@
+
+consul {
+  address = "{{ consul_host }}:{{ consul_port }}"
+  {% if consul_user is defined and consul_pass is defined %}
+  auth {
+    enabled  = true
+    username = "{{ consul_user }}"
+    password = "{{ consul_pass }}"
+  }{% endif %}
+  {% if consul_token is defined %}
+  token = "{{ consul_token }}"{% endif %}
+}
+{% if consul_template_command is defined %}
+exec {
+  command = "{{ consul_template_command }}"
+}{% endif %}
+reload_signal = "SIGHUP"
+kill_signal = "SIGINT"
+log_level = "{{ consul_template_log_level }}"
+wait {
+  min = "{{ consul_template_wait_min_sec }}s"
+  max = "{{ consul_template_wait_max_sec }}s"
+}
+template {
+  source      = "{{ consul_template_template_path }}"
+  destination = "{{ consul_template_render_path }}"
+}

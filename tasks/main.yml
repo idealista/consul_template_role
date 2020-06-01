@@ -1,0 +1,16 @@
+---
+
+- name: CONSUL_TEMPLATE | Install
+  include: install.yml
+  tags:
+    - consul_template_install
+
+- name: CONSUL_TEMPLATE | Configure
+  include: config.yml
+  tags:
+    - consul_template_configure
+
+- name: CONSUL_TEMPLATE | Service
+  include: service.yml
+  tags:
+    - consul_template_service

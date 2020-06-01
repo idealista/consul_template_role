@@ -1,0 +1,69 @@
+---
+
+
+- name: CONSUL_TEMPLATE | Ensure consul_template group
+  group:
+    name: "{{ consul_template_group }}"
+    system: yes
+    state: present
+
+- name: CONSUL_TEMPLATE | Ensure consul_template user
+  user:
+    name: "{{ consul_template_user }}"
+    group: "{{ consul_template_group }}"
+    system: yes
+    shell: /usr/sbin/nologin
+    createhome: no
+
+- name: CONSUL_TEMPLATE | Ensure skeleton paths
+  file:
+    dest: "{{ item }}"
+    owner: "{{ consul_template_user }}"
+    group: "{{ consul_template_group }}"
+    state: directory
+  with_items:
+    - "{{ consul_template_skeleton_paths }}"
+
+- name: CONSUL_TEMPLATE | Ensure skeleton log paths
+  file:
+    dest: "{{ consul_template_log_path }}"
+    owner: "{{ consul_template_user }}"
+    group: "{{ consul_template_group }}"
+    state: file
+  when: consul_template_log_file is defined
+
+- name: CONSUL_TEMPLATE | Check consul_template version
+  command: "consul_template --version"
+  register: consul_template_check
+  changed_when: false
+  ignore_errors: true
+
+- name: CONSUL_TEMPLATE | Download package
+  get_url:
+    url: "{{ consul_template_url }}"
+    dest: "{{ consul_template_package_path }}"
+  when: consul_template_force_reinstall or consul_template_check is failed or consul_template_version not in consul_template_check.stderr
+
+- name: CONSUL_TEMPLATE | Extract downloaded package
+  unarchive:
+    src: "{{ consul_template_package_path }}"
+    dest: "{{ consul_template_download_path }}"
+    remote_src: True
+  when: consul_template_force_reinstall or consul_template_check is failed or consul_template_version not in consul_template_check.stderr
+
+- name: CONSUL_TEMPLATE | Copy binary
+  copy:
+    src: "{{ consul_template_src_bin }}"
+    dest: "{{ consul_template_bin_path }}/{{ consul_template_exec_name }}"
+    owner: "{{ consul_template_user }}"
+    group: "{{ consul_template_group }}"
+    remote_src: True
+    mode: 0755
+  when: consul_template_force_reinstall or consul_template_check is failed or consul_template_version not in consul_template_check.stderr
+
+- name: CONSUL_TEMPLATE | Link binary
+  file:
+    src: "{{ consul_template_bin_path }}/{{ consul_template_exec_name }}"
+    dest: "/usr/bin/{{ consul_template_exec_name }}"
+    state: link
+  when: consul_template_force_reinstall or consul_template_check is failed or consul_template_version not in consul_template_check.stderr

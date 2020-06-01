@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: consul_template_group
+  vars:
+    consul_host: consul
+  roles:
+    - role: consul_template_role

@@ -1,0 +1,17 @@
+---
+
+- name: CONSUL_TEMPLATE | Copy Daemon script
+  template:
+    src: consul_template.service.j2
+    dest: /etc/systemd/system/consul_template.service
+    mode: 0644
+    owner: root
+    group: root
+  notify: restart consul_template
+
+- name: CONSUL_TEMPLATE | Configuring service
+  systemd:
+    name: consul_template
+    state: "{{ consul_template_service_state }}"
+    enabled: "{{ consul_template_service_enabled }}"
+    daemon_reload: true

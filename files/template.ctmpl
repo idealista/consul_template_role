@@ -1,0 +1,2 @@
+{{ range nodes }}
+{{ .Node }}{{ end }}

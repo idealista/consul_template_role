@@ -1,0 +1,7 @@
+---
+
+- name: restart consul_template
+  systemd:
+    name: consul_template
+    state: restarted
+  when: consul_template_service_state != 'stopped'

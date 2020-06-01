@@ -1,0 +1,74 @@
+---
+
+## General
+# Version
+consul_template_version: 0.25.0
+consul_template_release_system: linux_amd64
+
+# Package URL
+consul_template_release_name: "consul-template_{{ consul_template_version }}_{{ consul_template_release_system }}"
+consul_template_package: "{{ consul_template_release_name }}.tgz"
+consul_template_url: "https://releases.hashicorp.com/consul-template/{{ consul_template_version }}/{{ consul_template_package }}"
+
+# Package paths
+consul_template_download_path: /usr/src
+consul_template_package_path: "{{ consul_template_download_path }}/{{ consul_template_package }}"
+consul_template_src_bin: "{{ consul_template_download_path }}/{{ consul_template_exec_name }}"
+
+# Set true to force the download and installation of the binary
+consul_template_force_reinstall: false
+
+# Installation path
+consul_template_root_path: /opt/consul_template
+consul_template_bin_path: "{{ consul_template_root_path }}"
+consul_template_config_directory: /etc/consul_template
+consul_template_skeleton_paths: 
+  - "{{ consul_template_bin_path }}"
+  - "{{ consul_template_config_directory }}"
+consul_template_config_src: config.hcl.j2
+consul_template_template_src: template.ctmpl
+consul_template_exec_name: consul-template
+
+
+
+## Service options
+# Documentation
+consul_template_documentation_link: https://www.example.documentation.com
+
+# Owner
+consul_template_user: consultemplate
+consul_template_group: consultemplate
+
+# Maximum number of files limit
+consul_template_max_files: 32768
+
+# Start on boot
+consul_template_service_enabled: True
+# Current state: started, stopped
+consul_template_service_state: started
+
+# Logs
+# If wanted to output the logs to a file define the following variable
+# More information at https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardOutput=
+# consul_template_log_file: path_of_the_file
+consul_template_log_output: "{% if consul_template_log_file is defined %} file:{{ consul_template_log_file }} {% else %} journal {% endif %}"
+
+# Configuration
+# This variables are for changing things in the default configuration for consul template that the role provides
+consul_host:
+consul_port: 8500
+# consul_token:
+# consul_user:
+# consul_pass:
+# consul_template_command:
+consul_template_template_path: "{{ consul_template_config_directory }}/template.ctmpl"
+consul_template_render_path: "{{ consul_template_config_directory }}/render.txt"
+consul_template_log_level: warn
+consul_template_wait_min_sec: 5
+consul_template_wait_max_sec: 10
+# Flags
+consul_template_config_path: "{{ consul_template_config_directory }}/config.hcl"
+consul_template_options:  
+  - config "{{ consul_template_config_path }}"
+
+private_tmp_service: no
