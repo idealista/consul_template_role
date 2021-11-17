@@ -2,12 +2,12 @@
 
 ## General
 # Version
-consul_template_version: 0.25.0
+consul_template_version: 0.27.2
 consul_template_release_system: linux_amd64
 
 # Package URL
 consul_template_release_name: "consul-template_{{ consul_template_version }}_{{ consul_template_release_system }}"
-consul_template_package: "{{ consul_template_release_name }}.tgz"
+consul_template_package: "{{ consul_template_release_name }}.zip"
 consul_template_url: "https://releases.hashicorp.com/consul-template/{{ consul_template_version }}/{{ consul_template_package }}"
 
 # Package paths
@@ -29,7 +29,8 @@ consul_template_config_src: config.hcl.j2
 consul_template_template_src: template.ctmpl
 consul_template_exec_name: consul-template
 
-
+consul_template_required_libs:
+  - unzip
 
 ## Service options
 # Documentation
@@ -47,6 +48,8 @@ consul_template_service_enabled: True
 # Current state: started, stopped
 consul_template_service_state: started
 
+consul_template_service_template_file: "consul_template.service.j2"
+
 # Logs
 # If wanted to output the logs to a file define the following variable
 # More information at https://www.freedesktop.org/software/systemd/man/systemd.exec.html#StandardOutput=
@@ -61,6 +64,7 @@ consul_port: 8500
 # consul_user:
 # consul_pass:
 # consul_template_command:
+
 consul_template_template_path: "{{ consul_template_config_directory }}/template.ctmpl"
 consul_template_render_path: "{{ consul_template_config_directory }}/render.txt"
 consul_template_log_level: warn
@@ -71,4 +75,4 @@ consul_template_config_path: "{{ consul_template_config_directory }}/config.hcl"
 consul_template_options:  
   - config "{{ consul_template_config_path }}"
 
-private_tmp_service: no
+consul_template_private_tmp_service: no

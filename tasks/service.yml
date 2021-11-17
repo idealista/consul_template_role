@@ -2,7 +2,7 @@
 
 - name: CONSUL_TEMPLATE | Copy Daemon script
   template:
-    src: consul_template.service.j2
+    src: "{{ consul_template_service_template_file }}"
     dest: /etc/systemd/system/consul_template.service
     mode: 0644
     owner: root
