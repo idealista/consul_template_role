@@ -6,7 +6,7 @@ Requires=network-online.target
 After=network-online.target
 
 [Service]
-PrivateTmp={{ private_tmp_service }}
+PrivateTmp={{ consul_template_private_tmp_service }}
 User={{ consul_template_user }}
 Group={{ consul_template_group }}
 RuntimeDirectory=consul_template
