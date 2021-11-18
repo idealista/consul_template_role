@@ -1,7 +1,7 @@
 ---
-dist: xenial
+dist: bionic
 language: python
-python: "3.7"
+python: "3.9"
 os: linux
 services:
   - docker
@@ -9,7 +9,7 @@ install:
   - pip install pipenv
   - pipenv sync
 env:
-  jobs:
+  matrix:
     - MOLECULE_DISTRO=debian:stretch-slim
     - MOLECULE_DISTRO=debian:buster-slim
     - MOLECULE_DISTRO=debian:bullseye-slim
