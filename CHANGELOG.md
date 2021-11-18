@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
 ## Unreleased
 
-## [1.1.0](https://github.com/idealista/consul_template_role/tree/1.1.0) (2021-11-18)
+## [2.0.0](https://github.com/idealista/consul_template_role/tree/2.0.0) (2021-11-18)
 ### Added
 - [#8] *Now the template file for the consul_template service can be customized* @vicsufer
 - [#8] *Support for debian bullseye* @vicsufer
