@@ -1,16 +1,16 @@
 ---
 
 - name: CONSUL_TEMPLATE | Install
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - consul_template_install
 
 - name: CONSUL_TEMPLATE | Configure
-  include: config.yml
+  include_tasks: config.yml
   tags:
     - consul_template_configure
 
 - name: CONSUL_TEMPLATE | Service
-  include: service.yml
+  include_tasks: service.yml
   tags:
     - consul_template_service
